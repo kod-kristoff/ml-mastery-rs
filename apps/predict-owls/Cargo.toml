@@ -11,4 +11,4 @@ csv = "1.1.5"
 ndarray = "0.14"
 ndarray-csv = "0.5.0"
 ndarray-rand = "0.13.0"
-perceptron = { path = "../../libs/perceptron" }
+neural-network = { path = "../../libs/neural-network" }

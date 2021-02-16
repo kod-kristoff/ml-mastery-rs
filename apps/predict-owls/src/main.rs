@@ -146,7 +146,7 @@ fn species_generator(mu1: f64, sigma1: f64, mu2: f64, sigma2: f64, n_samples: us
 fn evaluate_perceptron(x: &Array2<f64>, y: &Array1<i32>) {
     let eta = 0.01;
     let n_iter = 200;
-    let network = perceptron::Network::fit(x, y, eta, n_iter);
+    let network = neural_network::Network::fit(x, y, eta, n_iter);
     let y_pred = network.predict(x);
     let num_correct: i64 = y.iter().zip(y_pred.iter()).map(|(y, yp)| {
         if y == yp {
