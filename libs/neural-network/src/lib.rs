@@ -27,6 +27,22 @@ impl Network {
         Self { weights, bias }
     }
 
+    pub fn adaline_fit(x: &Array2<f64>, y: &Array1<i32>, eta: f64, n_iter: usize, rng: &mut dyn RngCore) -> Self {
+        let (mut weights, mut bias) = random_weights(x, rng);
+        let mut y_f64 = Array1::<f64>::zeros(200);
+        for i in 0..y.len() {
+            y_f64[i] = y[i] as f64;
+        }
+        for _ in 0..n_iter {
+            let output = net_input(&x.view(), &weights.view(), bias);
+            let gradient = 2.0*(&y_f64 - &output);
+            
+            weights += &(eta*x.t().dot(&gradient));
+            bias += eta*gradient.sum();
+        }
+        Self { weights, bias }
+    }
+
     pub fn predict(&self, x: &Array2<f64>) -> Array1<i32> {
         do_predict(&x.view(), &self.weights.view(), self.bias)
     }

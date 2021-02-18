@@ -34,6 +34,11 @@ fn owls_and_albatrosses(rng: &mut dyn RngCore) {
     let now = std::time::Instant::now();
     evaluate_perceptron(&x, &y, rng);
     println!("Perceptron, elapsed time: {:.6?}", now.elapsed());
+
+    let now = std::time::Instant::now();
+    evaluate_adaline(&x, &y, rng);
+    println!("Adaline, elapsed time: {:.6?}", now.elapsed());
+
     println!("<<< owls_and_albatrosses");
 }
 
@@ -45,6 +50,11 @@ fn owls_and_albatrosses_from_file(rng: &mut dyn RngCore) -> Result<(), Box<dyn E
     let now = std::time::Instant::now();
     evaluate_perceptron(&x, &y, rng);
     println!("Perceptron, elapsed time: {:.6?}", now.elapsed());
+
+    let now = std::time::Instant::now();
+    evaluate_adaline(&x, &y, rng);
+    println!("Adaline, elapsed time: {:.6?}", now.elapsed());
+
     println!("<<< owls_and_albatrosses_from_file");
     Ok(())
 }
@@ -57,6 +67,11 @@ fn condors_and_albatrosses(rng: &mut dyn RngCore) {
     let now = std::time::Instant::now();
     evaluate_perceptron(&x, &y, rng);
     println!("Perceptron, elapsed time: {:.6?}", now.elapsed());
+
+    let now = std::time::Instant::now();
+    evaluate_adaline(&x, &y, rng);
+    println!("Adaline, elapsed time: {:.6?}", now.elapsed());
+
     println!("<<< condors_and_albatrosses");
 }
 
@@ -68,6 +83,11 @@ fn condors_and_albatrosses_from_file(rng: &mut dyn RngCore) -> Result<(), Box<dy
     let now = std::time::Instant::now();
     evaluate_perceptron(&x, &y, rng);
     println!("Perceptron, elapsed time: {:.6?}", now.elapsed());
+
+    let now = std::time::Instant::now();
+    evaluate_adaline(&x, &y, rng);
+    println!("Adaline, elapsed time: {:.6?}", now.elapsed());
+
     println!("<<< condors_and_albatrosses_from_file");
     Ok(())
 }
@@ -178,4 +198,20 @@ fn evaluate_perceptron(x: &Array2<f64>, y: &Array1<i32>, rng: &mut dyn RngCore) 
     }).sum();
     let accuracy = (num_correct as f64 / y.shape()[0] as f64) * 100.0;
     println!("Perceptron accuracy: {:.4} %", accuracy);
+}
+
+fn evaluate_adaline(x: &Array2<f64>, y: &Array1<i32>, rng: &mut dyn RngCore) {
+    let eta = 1e-10;
+    let n_iter = 120;
+    let network = Network::adaline_fit(x, y, eta, n_iter, rng);
+    let y_pred = network.predict(x);
+    let num_correct: i64 = y.iter().zip(y_pred.iter()).map(|(y, yp)| {
+        if y == yp {
+            1
+        } else {
+            0
+        }
+    }).sum();
+    let accuracy = (num_correct as f64 / y.shape()[0] as f64) * 100.0;
+    println!("Adaline accuracy: {:.4} %", accuracy);
 }
