@@ -27,19 +27,24 @@ impl MlpNetwork {
 
         for _ in 0..iterations {
             // Forward-propagation
-            let s1 = network.layers[0].propagate(x);
-            let s2 = network.layers[1].propagate(&s1);
+            let mut esses = vec![network.layers[0].propagate(x)];
+            for i in 1..network.layers.len() {
+                esses.push(network.layers[i].propagate(&esses[i-1]));
+            }
 
             // Back-propagation
-            let delta2 = (&s2 - y)*&s2*(1. - &s2);
-            let w2_gradients = s1.t().dot(&delta2);
-            network.layers[1].weights -= &(w2_gradients * eta);
-            network.layers[1].bias -= delta2.sum() * eta;
-
-            let delta1 = delta2.dot(&network.layers[1].weights.t()) * &s1 * (1. - &s1);
-            let w1_gradients = x.t().dot(&delta1);
-            network.layers[0].weights -= &(w1_gradients * eta);
-            network.layers[0].bias -= delta1.sum() * eta;
+            let s_last = &esses[esses.len() - 1];
+            let mut delta = (s_last - y)*s_last*(1. - s_last);
+            for i in (1..esses.len()).rev() {
+                println!("i = {}", i);
+                let w_gradients = esses[i-1].t().dot(&delta);
+                network.layers[i].weights -= &(w_gradients * eta);
+                network.layers[i].bias -= delta.sum() * eta;
+                delta = delta.dot(&network.layers[i].weights.t()) * &esses[i-1] * (1. - &esses[i-1]);
+            }
+            let w0_gradients = x.t().dot(&delta);
+            network.layers[0].weights -= &(w0_gradients * eta);
+            network.layers[0].bias -= delta.sum() * eta;
         }
 
         network
@@ -92,6 +97,10 @@ mod tests {
             assert_eq!(network.layers[1].weights.shape(), &[3, 2]);
 
             assert_relative_eq!(network.layers[0].bias[[0, 0]], 0.06738395137652944);
+            for i in 10..1 {
+                assert_eq!(i, 9);
+
+            }
         }
 
         #[test]
