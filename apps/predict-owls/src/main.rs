@@ -1,6 +1,6 @@
-use csv::{ReaderBuilder};
+use csv::ReaderBuilder;
 use ndarray::{Array1, Array2};
-use ndarray_csv::{Array2Reader};
+use ndarray_csv::Array2Reader;
 use neural_network::Network;
 use rand::RngCore;
 use std::error::Error;
