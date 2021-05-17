@@ -7,9 +7,9 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-csv = "1.1.5"
-ndarray = "0.14"
-ndarray-csv = "0.5.0"
-ndarray-rand = "0.13.0"
+csv = "1.1"
+ndarray = "0.15"
+ndarray-csv = "0.5"
+ndarray-rand = "0.14"
 neural-network = { path = "../../libs/neural-network" }
-rand = "0.8.3"
+rand = "0.8"
