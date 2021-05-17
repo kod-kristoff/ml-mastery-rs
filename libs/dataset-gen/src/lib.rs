@@ -15,14 +15,14 @@ mod tests {
         #[should_panic]
         fn factor_below_0_panics() {
             let factor = -1.0;
-            let (x, y) = make_circles(factor);
+            let (_x, _y) = make_circles(factor);
         }
 
         #[test]
         #[should_panic]
         fn factor_above_1_panics() {
             let factor = 1.01;
-            let (x, y) = make_circles(factor);
+            let (_x, _y) = make_circles(factor);
         }
     }
 }

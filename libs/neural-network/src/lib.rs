@@ -86,11 +86,6 @@ mod tests {
     use super::*;
     use approx::assert_relative_eq;
 
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-
     mod random_weights {
         use super::*;
         use rand::SeedableRng;

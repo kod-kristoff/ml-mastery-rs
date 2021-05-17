@@ -7,7 +7,7 @@ rustfmt:
 	cargo fmt
 
 check-clippy:
-	cargo clippy
+	cargo clippy --all-features --all-targets
 
 run-all-tests:
 	cargo test
