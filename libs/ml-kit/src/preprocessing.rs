@@ -43,7 +43,7 @@ mod tests {
 
             label_encoder.fit(&[1, 2, 2, 6]);
 
-            assert_eq!(label_encoder.classes(), &[2, 6, 1]);
+            assert_eq!(label_encoder.classes(), &[6, 2, 1]);
         }
     }
 }
