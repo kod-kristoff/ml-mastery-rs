@@ -9,17 +9,23 @@ pub struct Network {
 }
 
 impl Network {
-    pub fn perceptron_fit(x: &Array2<f64>, y: &Array1<i32>, eta: f64, n_iter: usize, rng: &mut dyn RngCore) -> Self {
+    pub fn perceptron_fit(
+        x: &Array2<f64>,
+        y: &Array1<i32>,
+        eta: f64,
+        n_iter: usize,
+        rng: &mut dyn RngCore,
+    ) -> Self {
         let (mut weights, mut bias) = random_weights(x, rng);
         for _ in 0..n_iter {
             for i in 0..y.len() {
-                let xi = x.slice(ndarray::s![i..(i+1), ..]);
+                let xi = x.slice(ndarray::s![i..(i + 1), ..]);
                 // println!("predicy(xi) = {:?}", do_predict(&xi.t(), &weights));
                 let target = y[i];
-                
+
                 let delta = eta * (target - do_predict(&xi, &weights.view(), bias)[0]) as f64;
                 // for k in 1..weights.len() {
-                 
+
                 // weights[k] += delta * xi[[0, k-1]];
                 // }
                 weights += &(delta * &xi.row(0));
@@ -29,7 +35,13 @@ impl Network {
         Self { weights, bias }
     }
 
-    pub fn adaline_fit(x: &Array2<f64>, y: &Array1<i32>, eta: f64, n_iter: usize, rng: &mut dyn RngCore) -> Self {
+    pub fn adaline_fit(
+        x: &Array2<f64>,
+        y: &Array1<i32>,
+        eta: f64,
+        n_iter: usize,
+        rng: &mut dyn RngCore,
+    ) -> Self {
         let (mut weights, mut bias) = random_weights(x, rng);
         let mut y_f64 = Array1::<f64>::zeros(200);
         for i in 0..y.len() {
@@ -37,10 +49,10 @@ impl Network {
         }
         for _ in 0..n_iter {
             let output = net_input(&x.view(), &weights.view(), bias);
-            let gradient = 2.0*(&y_f64 - &output);
-            
-            weights += &(eta*x.t().dot(&gradient));
-            bias += eta*gradient.sum();
+            let gradient = 2.0 * (&y_f64 - &output);
+
+            weights += &(eta * x.t().dot(&gradient));
+            bias += eta * gradient.sum();
         }
         Self { weights, bias }
     }
@@ -51,23 +63,16 @@ impl Network {
 }
 
 fn do_predict(x: &ArrayView2<f64>, w: &ArrayView1<f64>, bias: f64) -> Array1<i32> {
-    net_input(x, w, bias).map(|x| {
-        if *x < 0.0 {
-            -1
-        } else {
-            1
-        }
-    })
+    net_input(x, w, bias).map(|x| if *x < 0.0 { -1 } else { 1 })
 }
 
 fn net_input(x: &ArrayView2<f64>, w: &ArrayView1<f64>, bias: f64) -> Array1<f64> {
     x.dot(w) + bias
 }
 
-
 fn random_weights(x: &Array2<f64>, rng: &mut dyn RngCore) -> (Array1<f64>, f64) {
-    use ndarray_rand::RandomExt;
     use ndarray_rand::rand_distr::Normal;
+    use ndarray_rand::RandomExt;
     use rand::distributions::Distribution;
 
     let normal = Normal::new(0., 0.01).unwrap();
@@ -88,8 +93,8 @@ mod tests {
 
     mod random_weights {
         use super::*;
-        use rand_chacha::ChaCha8Rng;
         use rand::SeedableRng;
+        use rand_chacha::ChaCha8Rng;
 
         #[test]
         fn test() {

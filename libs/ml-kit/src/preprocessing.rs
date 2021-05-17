@@ -10,14 +10,14 @@ impl LabelEncoder {
             map: HashMap::new(),
         }
     }
-    
+
     pub fn fit(&mut self, data: &[usize]) {
         for d in data {
             if !self.map.contains_key(d) {
                 self.map.insert(*d, self.map.len());
             }
         }
-    } 
+    }
 
     pub fn classes(&self) -> Vec<usize> {
         self.map.keys().map(|v| *v).collect()
