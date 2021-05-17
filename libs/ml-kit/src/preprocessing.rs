@@ -20,7 +20,13 @@ impl LabelEncoder {
     }
 
     pub fn classes(&self) -> Vec<usize> {
-        self.map.keys().map(|v| *v).collect()
+        self.map.keys().copied().collect()
+    }
+}
+
+impl Default for LabelEncoder {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

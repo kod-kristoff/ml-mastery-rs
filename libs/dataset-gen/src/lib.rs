@@ -1,5 +1,5 @@
 pub fn make_circles(factor: f64) -> ((), ()) {
-    if factor < 0.0 || factor > 1.0 {
+    if !(0.0..=1.0).contains(&factor) {
         panic!("'factor' has to be between 0 and 1, got {}", factor);
     }
     ((), ())

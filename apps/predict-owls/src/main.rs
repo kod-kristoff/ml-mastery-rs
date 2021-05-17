@@ -1,6 +1,6 @@
-use csv::{ReaderBuilder, WriterBuilder};
+use csv::{ReaderBuilder};
 use ndarray::{Array1, Array2};
-use ndarray_csv::{Array2Reader, Array2Writer};
+use ndarray_csv::{Array2Reader};
 use neural_network::Network;
 use rand::RngCore;
 use std::error::Error;
@@ -9,20 +9,14 @@ use std::fs::File;
 fn main() {
     let mut rng = rand::thread_rng();
     owls_and_albatrosses(&mut rng);
-    match owls_and_albatrosses_from_file(&mut rng) {
-        Err(err) => {
-            println!("Error: {:?}", err);
-            ::std::process::exit(2);
-        }
-        _ => {}
+    if let Err(err) = owls_and_albatrosses_from_file(&mut rng) {
+        println!("Error: {:?}", err);
+        ::std::process::exit(2);
     }
     condors_and_albatrosses(&mut rng);
-    match condors_and_albatrosses_from_file(&mut rng) {
-        Err(err) => {
-            println!("Error: {:?}", err);
-            ::std::process::exit(2);
-        }
-        _ => {}
+    if let Err(err) = condors_and_albatrosses_from_file(&mut rng) {
+        println!("Error: {:?}", err);
+        ::std::process::exit(2);
     }
 }
 
