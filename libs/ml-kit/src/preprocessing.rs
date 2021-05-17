@@ -43,7 +43,11 @@ mod tests {
 
             label_encoder.fit(&[1, 2, 2, 6]);
 
-            assert_eq!(label_encoder.classes(), &[6, 2, 1]);
+            let classes = label_encoder.classes();
+            assert_eq!(classes.len(), 3);
+            assert!(classes.contains(&1));
+            assert!(classes.contains(&2));
+            assert!(classes.contains(&6));
         }
     }
 }

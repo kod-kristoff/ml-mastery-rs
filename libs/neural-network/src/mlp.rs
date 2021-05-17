@@ -102,9 +102,6 @@ mod tests {
             assert_eq!(network.layers[1].weights.shape(), &[3, 2]);
 
             assert_relative_eq!(network.layers[0].bias[[0, 0]], 0.06738395137652944);
-            for i in (1..10).rev() {
-                assert_eq!(i, 9);
-            }
         }
 
         #[test]
